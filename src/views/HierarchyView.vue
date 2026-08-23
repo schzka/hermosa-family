@@ -117,6 +117,9 @@
                     <span class="tree__node-name">{{ focusMember.name }}</span>
                     <span class="tree__node-rank">{{ focusMember.rank }}</span>
                   </div>
+                  <div class="tree__couple-heart-wrap" v-if="focusPartner">
+                    <span class="tree__couple-heart">♥</span>
+                  </div>
                   <div class="tree__node tree__node--couple" v-if="focusPartner" @click="selectMember(focusPartner.id)" title="Click to view partner lineage">
                     <span class="tree__couple-badge">✦ Partner / Couple</span>
                     <span class="tree__node-name">{{ focusPartner.name }}</span>
