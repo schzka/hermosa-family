@@ -9,7 +9,10 @@
     <section class="hierarchy">
       <div class="roster-controls">
         <div class="roster-search">
-          <span class="roster-search__icon">🔍</span>
+          <svg class="roster-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
           <input 
             type="text" 
             v-model="search" 
@@ -51,7 +54,11 @@
               </div>
               <div class="dossier-card__footer">
                 <button class="dossier-card__tree-btn" @click="openLineageModal(m.id)">
-                  Trace Family Lineage →
+                  Trace Family Lineage
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-1px; margin-left:4px;">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
                 </button>
               </div>
             </div>

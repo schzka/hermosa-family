@@ -19,13 +19,28 @@
           <div class="logo-card__image-wrap" @click="openLogoLightbox(logo)">
             <img :src="logo.src" :alt="logo.title" class="logo-card__img" />
             <div class="logo-card__overlay">
-              <span class="logo-card__zoom-icon">🔍 Click to Expand</span>
+              <span class="logo-card__zoom-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-1px; margin-right:4px;">
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+                Expand View
+              </span>
             </div>
           </div>
           <div class="logo-card__info">
             <h3 class="logo-card__title">{{ logo.title }}</h3>
             <p class="logo-card__desc">{{ logo.desc }}</p>
-            <a :href="logo.src" :download="logo.filename" class="btn btn--ghost logo-card__btn">Download Logo ↓</a>
+            <a :href="logo.src" :download="logo.filename" class="btn btn--ghost logo-card__btn">
+              Download Logo
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px; margin-left:6px;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </a>
           </div>
         </div>
       </div>

@@ -17,7 +17,9 @@
           <div class="branch__head" @click="toggleBranch(b)">
             <span class="branch__name">{{ b }}</span>
             <span class="branch__count">{{ getBranchMembers(b).length }} members</span>
-            <span class="branch__chevron">▾</span>
+            <svg class="branch__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
           </div>
           <Transition name="fade">
             <div class="branch__body" v-if="openBranches[b]">

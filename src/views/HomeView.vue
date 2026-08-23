@@ -61,13 +61,25 @@
           <div class="quicklink__badge">ROSTER & RANKS</div>
           <div class="quicklink__title">Hierarchy</div>
           <p class="quicklink__desc">Explore the 70 active Hermosa family profile dossiers by rank or branch, and open any member's family lineage modal.</p>
-          <span class="quicklink__arrow">View Roster <span>→</span></span>
+          <span class="quicklink__arrow">
+            View Roster
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-1px; margin-left:4px;">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
         </router-link>
         <router-link class="quicklink" to="/branches">
           <div class="quicklink__badge">FAMILY WINGS</div>
           <div class="quicklink__title">Branches</div>
           <p class="quicklink__desc">Explore the Founders, OG, Members, and Laang relatives.</p>
-          <span class="quicklink__arrow">View Branches <span>→</span></span>
+          <span class="quicklink__arrow">
+            View Branches
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-1px; margin-left:4px;">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
         </router-link>
       </div>
     </section>

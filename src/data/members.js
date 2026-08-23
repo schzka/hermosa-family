@@ -21,7 +21,7 @@ export const MEMBERS = [
   { id: 8, name: 'Serenity $aint Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Founding sibling of Hermosa. Parent of Clyde, Shanty, Riss, Ryujin, Basti, and Serenity $in.' },
   { id: 9, name: 'Obet Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Founding sibling of Hermosa. Parent of Andoy.' },
   { id: 10, name: 'Kira Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Founding sibling of Hermosa. Original table.' },
-  { id: 11, name: 'Nalatie Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Founding sibling of Hermosa. Original table.' },
+  { id: 11, name: 'Natalie Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Founding sibling of Hermosa. Original table.' },
 
   // --- OG ---
   { id: 31, name: 'Yotam Saint Hermosa (OG)', rank: 'OG Member', branch: 'OG', sponsor: null, bio: 'OG Member. Parent of Vinny and Hanz.' },
