@@ -45,7 +45,7 @@
             <div class="dossier-card" v-for="m in tier.items" :key="m.id">
               <div class="dossier-card__header">
                 <div class="dossier-card__avatar">{{ getInitials(m.name) }}</div>
-                <div class="dossier-card__branch-badge">{{ m.branch }}</div>
+                <div class="dossier-card__branch-badge" v-if="m.branch === 'Laang'">{{ m.branch }}</div>
               </div>
               <div class="dossier-card__body">
                 <div class="dossier-card__name">{{ m.name }}</div>
@@ -80,7 +80,7 @@
                 <h2 class="lineage-modal-name">{{ focusMember.name }}</h2>
                 <div class="lineage-modal-badges">
                   <span class="lineage-modal-rank">{{ focusMember.rank }}</span>
-                  <span class="lineage-modal-branch">{{ focusMember.branch }}</span>
+                  <span class="lineage-modal-branch" v-if="focusMember.branch === 'Laang'">{{ focusMember.branch }}</span>
                 </div>
               </div>
             </div>
