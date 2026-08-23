@@ -110,12 +110,17 @@
                   <div class="tree__origin-badge">✦ Founders · Original Family Table ✦</div>
                 </template>
 
-                <!-- Selected Member -->
-                <div class="tree__gen-label">✦ Selected Member ✦</div>
+                <!-- Selected Member & Partner Couple -->
+                <div class="tree__gen-label">✦ Selected Member {{ focusPartner ? '& Couple' : '' }} ✦</div>
                 <div class="tree__gen">
                   <div class="tree__node tree__node--focus">
                     <span class="tree__node-name">{{ focusMember.name }}</span>
                     <span class="tree__node-rank">{{ focusMember.rank }}</span>
+                  </div>
+                  <div class="tree__node tree__node--couple" v-if="focusPartner" @click="selectMember(focusPartner.id)" title="Click to view partner lineage">
+                    <span class="tree__couple-badge">✦ Partner / Couple</span>
+                    <span class="tree__node-name">{{ focusPartner.name }}</span>
+                    <span class="tree__node-rank">{{ focusPartner.rank }}</span>
                   </div>
                 </div>
 
@@ -189,6 +194,11 @@ const hierarchyTiers = computed(() => {
 const focusMember = computed(() => {
   if (!activeMemberId.value) return null
   return byId(activeMemberId.value) || null
+})
+
+const focusPartner = computed(() => {
+  if (!focusMember.value || !focusMember.value.partnerId) return null
+  return byId(focusMember.value.partnerId) || null
 })
 
 const ancestorChain = computed(() => {
