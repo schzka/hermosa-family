@@ -88,20 +88,20 @@
             <div class="lineage-modal-body" v-if="focusMember">
               <!-- Summary Bar -->
               <div class="tree__summary-bar">
-                <div class="tree__summary-item">Parent / Lineage: <strong>{{ focusParentName }}</strong></div>
+                <div class="tree__summary-item">Parent: <strong>{{ focusParentName }}</strong></div>
                 <span class="tree__summary-divider">|</span>
-                <div class="tree__summary-item">Children / Lineage: <strong>{{ focusChildren.length }}</strong></div>
+                <div class="tree__summary-item">Children: <strong>{{ focusChildren.length }}</strong></div>
               </div>
 
               <!-- Tree Diagram Container -->
               <div class="tree__diagram">
                 <!-- Ancestors / Parent -->
                 <template v-if="ancestorChain.length">
-                  <div class="tree__gen-label">✦ Parent / Lineage ✦</div>
+                  <div class="tree__gen-label">✦ Parent ✦</div>
                   <div class="tree__gen">
                     <div class="tree__node" v-for="a in ancestorChain" :key="a.id" @click="selectMember(a.id)">
                       <span class="tree__node-name">{{ a.name }}</span>
-                      <span class="tree__node-rank">{{ a.rank }} · {{ a.branch }}</span>
+                      <span class="tree__node-rank">{{ a.rank }}</span>
                     </div>
                   </div>
                   <div class="tree__connector"></div>
@@ -115,34 +115,34 @@
                 <div class="tree__gen">
                   <div class="tree__node tree__node--focus">
                     <span class="tree__node-name">{{ focusMember.name }}</span>
-                    <span class="tree__node-rank">{{ focusMember.rank }} · {{ focusMember.branch }}</span>
+                    <span class="tree__node-rank">{{ focusMember.rank }}</span>
                   </div>
                 </div>
 
-                <!-- Direct Children / Lineage -->
+                <!-- Direct Children -->
                 <template v-if="focusChildren.length">
                   <div class="tree__connector"></div>
-                  <div class="tree__gen-label">✦ Daughters & Family Lineage ({{ focusChildren.length }}) ✦</div>
+                  <div class="tree__gen-label">✦ Children ({{ focusChildren.length }}) ✦</div>
                   <div class="tree__gen">
                     <div class="tree__node" v-for="c in focusChildren" :key="c.id" @click="selectMember(c.id)">
                       <span class="tree__node-name">{{ c.name }}</span>
-                      <span class="tree__node-rank">{{ c.rank }} · {{ c.branch }}</span>
+                      <span class="tree__node-rank">{{ c.rank }}</span>
                     </div>
                   </div>
                 </template>
                 <template v-else>
                   <div class="tree__connector"></div>
-                  <div class="tree__empty-card">✦ No direct children / lineage entries listed ✦</div>
+                  <div class="tree__empty-card">✦ No direct children listed ✦</div>
                 </template>
 
                 <!-- Grandchildren -->
                 <template v-if="focusGrandchildren.length">
                   <div class="tree__connector"></div>
-                  <div class="tree__gen-label">✦ Next Generation Lineage ✦</div>
+                  <div class="tree__gen-label">✦ Next Generation ✦</div>
                   <div class="tree__gen">
                     <div class="tree__node" v-for="g in focusGrandchildren" :key="g.id" @click="selectMember(g.id)">
                       <span class="tree__node-name">{{ g.name }}</span>
-                      <span class="tree__node-rank">{{ g.rank }} · {{ g.branch }}</span>
+                      <span class="tree__node-rank">{{ g.rank }}</span>
                     </div>
                   </div>
                 </template>
@@ -212,9 +212,9 @@ const focusGrandchildren = computed(() => {
 })
 
 const focusParentName = computed(() => {
-  if (!focusMember.value || focusMember.value.sponsor === null) return 'Parent / Lineage Head'
+  if (!focusMember.value || focusMember.value.sponsor === null) return 'Lineage Head'
   const p = byId(focusMember.value.sponsor)
-  return p ? p.name : 'Parent / Lineage Head'
+  return p ? p.name : 'Lineage Head'
 })
 
 function openLineageModal(id) {
