@@ -21,10 +21,11 @@
 
       <div class="about__grid">
         <div class="about__copy-card">
-          <p class="about__lead">Hermosa is built on founding sibling bloodlines and strong family wings — where every member is bound by loyalty to the Hermosa name.</p>
+          <h3 class="about__subtitle">What is Hermosa?</h3>
+          <p class="about__lead">Hermosa was a small family that grew and has always kept matters to themselves. We are big in loyalty and respect, but we respect people who actually deserve it and earned it.</p>
           <div class="about__copy">
-            <p>Founded from a shared table of siblings and driven by ambition, Hermosa encompasses founding lineages, core family members, OG veterans, and the Laang family.</p>
-            <p>Every member who joins climbs through the ranks by proving their loyalty to the family's legacy, business, and people.</p>
+            <p>People always think that being a Hermosa is an honor because this is the family where everyone can be themselves and they are fully accepted.</p>
+            <p>Eventually, Hermosa grew and had extended families, Laang and Demonyo, that later on decided to also carry the name Hermosa. Many have left, and others tried to bring us down — but that just makes our bond grow stronger.</p>
           </div>
         </div>
 
