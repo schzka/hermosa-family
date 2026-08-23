@@ -165,8 +165,17 @@ button { font-family: inherit; }
 .nav__links a:hover::after, .nav__links a.router-link-active::after {
   transform: scaleX(1); transform-origin: left;
 }
-.nav__links a:hover, .nav__links a.router-link-active, .nav__links a.is-active {
-  color: var(--gold-bright); font-weight: 600;
+.nav__links a:hover, .nav__links a.router-link-active {
+  color: var(--cream);
+  opacity: 1;
+}
+
+.nav__links a.nav__ext-link {
+  color: var(--gold-bright);
+  font-weight: 600;
+}
+.nav__links a.nav__ext-link:hover {
+  color: #ffffff;
 }
 
 /* ============ BUTTONS ============ */

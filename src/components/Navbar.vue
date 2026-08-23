@@ -9,6 +9,7 @@
       <router-link to="/hierarchy">Hierarchy</router-link>
       <router-link to="/branches">Branches</router-link>
       <router-link to="/media">Showcase</router-link>
+      <a href="https://thesaint.online/" target="_blank" rel="noopener noreferrer" class="nav__ext-link">Saints ↗</a>
     </nav>
   </header>
 </template>
