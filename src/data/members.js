@@ -68,11 +68,11 @@ export const MEMBERS = [
   { id: 51, name: 'Ryujin Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, partnerId: null, bio: 'Shared lineage under Serenity $aint & Serenity $in.' },
   { id: 52, name: 'Basti Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, partnerId: null, bio: 'Shared lineage under Serenity $aint & Serenity $in.' },
   { id: 53, name: 'Pabs Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 3, partnerId: null, bio: 'Lineage under Choco Hermosa.' },
-  { id: 54, name: 'Rhy Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 25, partnerId: null, bio: 'Lineage under Sunday (Thomas).' },
+  { id: 54, name: 'Rhy Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 25, sponsors: [25, 68, 58], partnerId: null, bio: 'Shared lineage under Sunday (Thomas), Ruzty Laang, & Santan Saint.' },
   { id: 55, name: 'Zion Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, partnerId: null, bio: 'Saint Hermosa line.' },
   { id: 56, name: 'See Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, partnerId: null, bio: 'Saint Hermosa line.' },
   { id: 57, name: 'Lance Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, partnerId: null, bio: 'Saint Hermosa line.' },
-  { id: 58, name: 'Santan Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, partnerId: null, bio: 'Saint Hermosa line.' },
+  { id: 58, name: 'Santan Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, partnerId: null, bio: 'Parent of Rhy Saint Hermosa.' },
   { id: 59, name: 'Killua Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, partnerId: null, bio: 'Saint Hermosa line.' },
   { id: 60, name: 'Sikret Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, partnerId: null, bio: 'Saint Hermosa line.' },
   { id: 61, name: 'Kon Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, partnerId: null, bio: 'Saint Hermosa line.' },
@@ -84,7 +84,7 @@ export const MEMBERS = [
   { id: 65, name: 'Pludz Laang', rank: 'Member', branch: 'Laang', sponsor: null, partnerId: null, bio: 'Distant relative in Laang branch.' },
   { id: 66, name: 'Hanz Laang', rank: 'Member', branch: 'Laang', sponsor: 31, partnerId: null, bio: 'Laang relative under Yotam.' },
   { id: 67, name: 'Jopok Laang', rank: 'Member', branch: 'Laang', sponsor: null, partnerId: null, bio: 'Distant relative in Laang branch.' },
-  { id: 68, name: 'Ruzty Laang', rank: 'Member', branch: 'Laang', sponsor: null, partnerId: null, bio: 'Distant relative in Laang branch.' },
+  { id: 68, name: 'Ruzty Laang', rank: 'Member', branch: 'Laang', sponsor: null, partnerId: null, bio: 'Parent of Rhy Saint Hermosa.' },
   { id: 69, name: 'Max Saint Laang', rank: 'Associate', branch: 'Laang', sponsor: null, partnerId: null, bio: 'Saint Laang relative.' },
   { id: 70, name: 'Samuel Saint Laang', rank: 'Associate', branch: 'Laang', sponsor: 63, partnerId: null, bio: 'Saint Laang relative under Totoy & Hime.' }
 ]
@@ -93,8 +93,8 @@ export const byId = (id) => MEMBERS.find(m => m.id === Number(id))
 export const childrenOf = (id) => {
   const targetId = Number(id)
   if (targetId === 8 || targetId === 12) {
-    return MEMBERS.filter(m => m.sponsor === 8 || m.sponsor === 12)
+    return MEMBERS.filter(m => m.sponsor === 8 || m.sponsor === 12 || (m.sponsors && (m.sponsors.includes(8) || m.sponsors.includes(12))))
   }
-  return MEMBERS.filter(m => m.sponsor === targetId)
+  return MEMBERS.filter(m => m.sponsor === targetId || (m.sponsors && m.sponsors.includes(targetId)))
 }
 export const getInitials = (name) => name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()

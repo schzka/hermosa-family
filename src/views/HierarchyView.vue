@@ -204,13 +204,20 @@ const focusPartner = computed(() => {
 const ancestorChain = computed(() => {
   if (!activeMemberId.value) return []
   const current = byId(activeMemberId.value)
-  if (!current || current.sponsor === null) return []
+  if (!current) return []
+
+  if (current.id === 54 || (current.sponsors && current.sponsors.length > 1)) {
+    const parentIds = current.sponsors
+    return parentIds.map(id => byId(id)).filter(Boolean)
+  }
 
   if (current.sponsor === 8 || current.sponsor === 12) {
     const p1 = byId(8)
     const p2 = byId(12)
     return [p1, p2].filter(Boolean)
   }
+
+  if (current.sponsor === null) return []
 
   const chain = []
   let parent = byId(current.sponsor)
@@ -232,6 +239,9 @@ const focusGrandchildren = computed(() => {
 
 const focusParentName = computed(() => {
   if (!focusMember.value) return 'Lineage Head'
+  if (focusMember.value.id === 54 || (focusMember.value.sponsors && focusMember.value.sponsors.length > 1)) {
+    return 'Sunday, Ruzty, & Santan'
+  }
   if (focusMember.value.id === 8 || focusMember.value.id === 12) {
     return 'Shared Couple Lineage'
   }
