@@ -18,7 +18,7 @@ export const MEMBERS = [
   { id: 5, name: 'Ron Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Original founding table.' },
   { id: 6, name: 'Lakan Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Parent of Papi and Rayuu (Kozie).' },
   { id: 7, name: 'Cleoh Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Original founding table.' },
-  { id: 8, name: 'Serenity $aint Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Parent of Clyde, Shanty, Riss, Ryujin, Basti, and Serenity $in.' },
+  { id: 8, name: 'Serenity $aint Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Partnered with Serenity $in. Shared parent of Clyde, Shanty, Riss, Ryujin, and Basti.' },
   { id: 9, name: 'Obet Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Parent of Andoy.' },
   { id: 10, name: 'Kira Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Original founding table.' },
   { id: 11, name: 'Natalie Hermosa', rank: 'Founder', branch: 'Founders', sponsor: null, bio: 'Original founding table.' },
@@ -43,7 +43,7 @@ export const MEMBERS = [
   { id: 47, name: 'Vinny Saint Hermosa', rank: 'OG Member', branch: 'OG', sponsor: 31, bio: 'Lineage under Yotam.' },
 
   // --- MEMBERS ---
-  { id: 12, name: 'Serenity $in Hermosa', rank: 'Member', branch: 'Members', sponsor: 8, bio: 'Lineage under Serenity $aint.' },
+  { id: 12, name: 'Serenity $in Hermosa', rank: 'Member', branch: 'Members', sponsor: null, bio: 'Partnered with Serenity $aint. Shared parent of Clyde, Shanty, Riss, Ryujin, and Basti.' },
   { id: 13, name: 'Lucifer (Kulas) Hermosa', rank: 'Member', branch: 'Members', sponsor: null, bio: 'Active family line.' },
   { id: 14, name: 'Yongz Hermosa', rank: 'Member', branch: 'Members', sponsor: null, bio: 'Active family line.' },
   { id: 15, name: 'Sushi $in Hermosa', rank: 'Member', branch: 'Members', sponsor: 25, bio: 'Lineage under Sunday (Thomas).' },
@@ -62,11 +62,11 @@ export const MEMBERS = [
   { id: 28, name: 'Tg Hermosa', rank: 'Member', branch: 'Members', sponsor: null, bio: 'Active family line.' },
   { id: 29, name: 'Tetsuya Hermosa', rank: 'Member', branch: 'Members', sponsor: 3, bio: 'Lineage under Choco Hermosa.' },
   { id: 30, name: 'Reinier Hermosa', rank: 'Associate', branch: 'Members', sponsor: 25, bio: 'Lineage under Sunday (Thomas).' },
-  { id: 48, name: 'Clyde Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Lineage under Serenity $aint.' },
-  { id: 49, name: 'Shanty Sin Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Lineage under Serenity $aint.' },
-  { id: 50, name: 'Riss Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Lineage under Serenity $aint.' },
-  { id: 51, name: 'Ryujin Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Lineage under Serenity $aint.' },
-  { id: 52, name: 'Basti Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Lineage under Serenity $aint.' },
+  { id: 48, name: 'Clyde Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Shared lineage under Serenity $aint & Serenity $in.' },
+  { id: 49, name: 'Shanty Sin Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Shared lineage under Serenity $aint & Serenity $in.' },
+  { id: 50, name: 'Riss Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Shared lineage under Serenity $aint & Serenity $in.' },
+  { id: 51, name: 'Ryujin Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Shared lineage under Serenity $aint & Serenity $in.' },
+  { id: 52, name: 'Basti Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 8, bio: 'Shared lineage under Serenity $aint & Serenity $in.' },
   { id: 53, name: 'Pabs Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 3, bio: 'Lineage under Choco Hermosa.' },
   { id: 54, name: 'Rhy Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: 25, bio: 'Lineage under Sunday (Thomas).' },
   { id: 55, name: 'Zion Saint Hermosa', rank: 'Associate', branch: 'Members', sponsor: null, bio: 'Saint Hermosa line.' },
@@ -90,5 +90,11 @@ export const MEMBERS = [
 ]
 
 export const byId = (id) => MEMBERS.find(m => m.id === Number(id))
-export const childrenOf = (id) => MEMBERS.filter(m => m.sponsor === Number(id))
+export const childrenOf = (id) => {
+  const targetId = Number(id)
+  if (targetId === 8 || targetId === 12) {
+    return MEMBERS.filter(m => m.sponsor === 8 || m.sponsor === 12)
+  }
+  return MEMBERS.filter(m => m.sponsor === targetId)
+}
 export const getInitials = (name) => name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()

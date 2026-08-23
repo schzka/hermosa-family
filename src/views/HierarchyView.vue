@@ -193,11 +193,20 @@ const focusMember = computed(() => {
 
 const ancestorChain = computed(() => {
   if (!activeMemberId.value) return []
+  const current = byId(activeMemberId.value)
+  if (!current || current.sponsor === null) return []
+
+  if (current.sponsor === 8 || current.sponsor === 12) {
+    const p1 = byId(8)
+    const p2 = byId(12)
+    return [p1, p2].filter(Boolean)
+  }
+
   const chain = []
-  let current = byId(activeMemberId.value)
-  while (current && current.sponsor !== null) {
-    current = byId(current.sponsor)
-    if (current) chain.unshift(current)
+  let parent = byId(current.sponsor)
+  while (parent) {
+    chain.unshift(parent)
+    parent = parent.sponsor ? byId(parent.sponsor) : null
   }
   return chain
 })
@@ -212,7 +221,14 @@ const focusGrandchildren = computed(() => {
 })
 
 const focusParentName = computed(() => {
-  if (!focusMember.value || focusMember.value.sponsor === null) return 'Lineage Head'
+  if (!focusMember.value) return 'Lineage Head'
+  if (focusMember.value.id === 8 || focusMember.value.id === 12) {
+    return 'Shared Couple Lineage'
+  }
+  if (focusMember.value.sponsor === null) return 'Lineage Head'
+  if (focusMember.value.sponsor === 8 || focusMember.value.sponsor === 12) {
+    return 'Serenity $aint & Serenity $in'
+  }
   const p = byId(focusMember.value.sponsor)
   return p ? p.name : 'Lineage Head'
 })
