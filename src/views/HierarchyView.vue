@@ -114,6 +114,7 @@
                 <div class="tree__gen-label">✦ Selected Member {{ focusPartner ? '& Couple' : '' }} ✦</div>
                 <div class="tree__gen">
                   <div class="tree__node tree__node--focus">
+                    <span class="tree__selected-badge" v-if="focusPartner">✦ Selected Member</span>
                     <span class="tree__node-name">{{ focusMember.name }}</span>
                     <span class="tree__node-rank">{{ focusMember.rank }}</span>
                   </div>
