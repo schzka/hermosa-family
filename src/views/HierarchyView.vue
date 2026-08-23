@@ -1,0 +1,253 @@
+<template>
+  <div>
+    <section class="page-header">
+      <p class="page-header__eyebrow">The Roster</p>
+      <h1 class="page-header__title text-shimmer">Hierarchy</h1>
+      <p class="page-header__desc">The official roster of Hermosa. Filter member profile dossiers by branch or search by name, and click to trace their family lineage in a modal popup.</p>
+    </section>
+
+    <section class="hierarchy">
+      <div class="roster-controls">
+        <div class="roster-search">
+          <span class="roster-search__icon">🔍</span>
+          <input 
+            type="text" 
+            v-model="search" 
+            class="roster-search__input" 
+            placeholder="Search member name, rank, or branch..." 
+            aria-label="Search members"
+          >
+        </div>
+        
+        <div class="roster-filters">
+          <button 
+            class="branch-tab-btn" 
+            :class="{ 'is-active': activeFilter === 'all' }" 
+            @click="activeFilter = 'all'"
+          >All Roster</button>
+          <button 
+            class="branch-tab-btn" 
+            v-for="b in BRANCH_NAMES" 
+            :key="b" 
+            :class="{ 'is-active': activeFilter === b }" 
+            @click="activeFilter = b"
+          >{{ b }}</button>
+        </div>
+      </div>
+
+      <div class="hierarchy__tiers">
+        <div class="tier" v-for="tier in hierarchyTiers" :key="tier.rank">
+          <div class="tier__label">{{ tier.rank }}{{ tier.items.length > 1 ? 's' : '' }}</div>
+          <TransitionGroup name="dossier-list" tag="div" class="tier__row">
+            <div class="dossier-card" v-for="m in tier.items" :key="m.id">
+              <div class="dossier-card__header">
+                <div class="dossier-card__avatar">{{ getInitials(m.name) }}</div>
+                <div class="dossier-card__branch-badge">{{ m.branch }}</div>
+              </div>
+              <div class="dossier-card__body">
+                <div class="dossier-card__name">{{ m.name }}</div>
+                <div class="dossier-card__rank-badge">{{ m.rank }}</div>
+                <p class="dossier-card__bio">{{ m.bio }}</p>
+              </div>
+              <div class="dossier-card__footer">
+                <button class="dossier-card__tree-btn" @click="openLineageModal(m.id)">
+                  Trace Family Lineage →
+                </button>
+              </div>
+            </div>
+          </TransitionGroup>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lineage Modal Popup Overlay -->
+    <Teleport to="body">
+      <Transition name="modal-pop">
+        <div class="lineage-modal-overlay" v-if="isModalOpen" @click.self="closeModal">
+          <div class="lineage-modal-card">
+            <button class="lineage-modal-close" @click="closeModal" title="Close modal">✕</button>
+
+            <div class="lineage-modal-header" v-if="focusMember">
+              <div class="lineage-modal-avatar">{{ getInitials(focusMember.name) }}</div>
+              <div>
+                <h2 class="lineage-modal-name">{{ focusMember.name }}</h2>
+                <div class="lineage-modal-badges">
+                  <span class="lineage-modal-rank">{{ focusMember.rank }}</span>
+                  <span class="lineage-modal-branch">{{ focusMember.branch }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="lineage-modal-body" v-if="focusMember">
+              <!-- Summary Bar -->
+              <div class="tree__summary-bar">
+                <div class="tree__summary-item">Parent / Lineage: <strong>{{ focusParentName }}</strong></div>
+                <span class="tree__summary-divider">|</span>
+                <div class="tree__summary-item">Children / Lineage: <strong>{{ focusChildren.length }}</strong></div>
+              </div>
+
+              <!-- Tree Diagram Container -->
+              <div class="tree__diagram">
+                <!-- Ancestors / Parent -->
+                <template v-if="ancestorChain.length">
+                  <div class="tree__gen-label">✦ Parent / Lineage ✦</div>
+                  <div class="tree__gen">
+                    <div class="tree__node" v-for="a in ancestorChain" :key="a.id" @click="selectMember(a.id)">
+                      <span class="tree__node-name">{{ a.name }}</span>
+                      <span class="tree__node-rank">{{ a.rank }} · {{ a.branch }}</span>
+                    </div>
+                  </div>
+                  <div class="tree__connector"></div>
+                </template>
+                <template v-else-if="focusMember.sponsor === null">
+                  <div class="tree__origin-badge">✦ Founders · Original Family Table ✦</div>
+                </template>
+
+                <!-- Selected Member -->
+                <div class="tree__gen-label">✦ Selected Member ✦</div>
+                <div class="tree__gen">
+                  <div class="tree__node tree__node--focus">
+                    <span class="tree__node-name">{{ focusMember.name }}</span>
+                    <span class="tree__node-rank">{{ focusMember.rank }} · {{ focusMember.branch }}</span>
+                  </div>
+                </div>
+
+                <!-- Direct Children / Lineage -->
+                <template v-if="focusChildren.length">
+                  <div class="tree__connector"></div>
+                  <div class="tree__gen-label">✦ Daughters & Family Lineage ({{ focusChildren.length }}) ✦</div>
+                  <div class="tree__gen">
+                    <div class="tree__node" v-for="c in focusChildren" :key="c.id" @click="selectMember(c.id)">
+                      <span class="tree__node-name">{{ c.name }}</span>
+                      <span class="tree__node-rank">{{ c.rank }} · {{ c.branch }}</span>
+                    </div>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="tree__connector"></div>
+                  <div class="tree__empty-card">✦ No direct children / lineage entries listed ✦</div>
+                </template>
+
+                <!-- Grandchildren -->
+                <template v-if="focusGrandchildren.length">
+                  <div class="tree__connector"></div>
+                  <div class="tree__gen-label">✦ Next Generation Lineage ✦</div>
+                  <div class="tree__gen">
+                    <div class="tree__node" v-for="g in focusGrandchildren" :key="g.id" @click="selectMember(g.id)">
+                      <span class="tree__node-name">{{ g.name }}</span>
+                      <span class="tree__node-rank">{{ g.rank }} · {{ g.branch }}</span>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { MEMBERS, RANKS, BRANCH_NAMES, byId, childrenOf, getInitials } from '../data/members.js'
+
+const route = useRoute()
+
+const search = ref('')
+const activeFilter = ref('all')
+
+const activeMemberId = ref(null)
+const isModalOpen = ref(false)
+
+const filteredMembers = computed(() => {
+  const q = search.value.toLowerCase().trim()
+  const f = activeFilter.value
+
+  return MEMBERS.filter(m => {
+    const matchFilter = f === 'all' || m.branch === f || m.rank.toLowerCase() === f.toLowerCase()
+    const matchSearch = !q || m.name.toLowerCase().includes(q) || m.rank.toLowerCase().includes(q) || m.branch.toLowerCase().includes(q)
+    return matchFilter && matchSearch
+  })
+})
+
+const hierarchyTiers = computed(() => {
+  return RANKS.map(rank => {
+    const items = filteredMembers.value.filter(m => m.rank === rank)
+    return { rank, items }
+  }).filter(t => t.items.length > 0)
+})
+
+const focusMember = computed(() => {
+  if (!activeMemberId.value) return null
+  return byId(activeMemberId.value) || null
+})
+
+const ancestorChain = computed(() => {
+  if (!activeMemberId.value) return []
+  const chain = []
+  let current = byId(activeMemberId.value)
+  while (current && current.sponsor !== null) {
+    current = byId(current.sponsor)
+    if (current) chain.unshift(current)
+  }
+  return chain
+})
+
+const focusChildren = computed(() => {
+  if (!activeMemberId.value) return []
+  return childrenOf(activeMemberId.value)
+})
+
+const focusGrandchildren = computed(() => {
+  return focusChildren.value.flatMap(c => childrenOf(c.id))
+})
+
+const focusParentName = computed(() => {
+  if (!focusMember.value || focusMember.value.sponsor === null) return 'Parent / Lineage Head'
+  const p = byId(focusMember.value.sponsor)
+  return p ? p.name : 'Parent / Lineage Head'
+})
+
+function openLineageModal(id) {
+  activeMemberId.value = Number(id)
+  isModalOpen.value = true
+}
+
+function selectMember(id) {
+  activeMemberId.value = Number(id)
+}
+
+function closeModal() {
+  isModalOpen.value = false
+}
+
+function handleKeyDown(e) {
+  if (e.key === 'Escape' && isModalOpen.value) {
+    closeModal()
+  }
+}
+
+function syncMemberFromRoute() {
+  if (route.query.member) {
+    const id = Number(route.query.member)
+    if (!Number.isNaN(id)) {
+      openLineageModal(id)
+    }
+  }
+}
+
+onMounted(() => {
+  syncMemberFromRoute()
+  window.addEventListener('keydown', handleKeyDown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyDown)
+})
+
+watch(() => route.query.member, () => {
+  syncMemberFromRoute()
+})
+</script>
